@@ -1,7 +1,7 @@
 /* RingSale POS platform service worker — precaches the app shell for offline use.
    Same-origin GETs only. Cross-origin requests (Supabase API, CDN libraries)
    ALWAYS go straight to the network and are NEVER cached. */
-const CACHE = 'ringsale-app-v1';
+const CACHE = 'ringsale-app-v2';
 const ASSETS = [
   '/',
   '/index.html',
@@ -11,6 +11,7 @@ const ASSETS = [
   '/js/supabase.js',
   '/js/auth.js',
   '/js/register.js',
+  '/js/admin.js',
   '/js/app.js',
   '/icons/icon-512.png',
   '/icons/icon-192.png',

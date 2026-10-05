@@ -3,4 +3,4 @@ window.RINGSALE_CONFIG = {
   SUPABASE_URL: "https://xlhwtooravxrspksrzkn.supabase.co",
   SUPABASE_ANON_KEY: "sb_publishable_BWv80x_mcgWfzJfGiyRcRQ_-kdPtVE2"
 };
-window.APP_VERSION = 'v1';
+window.APP_VERSION = 'v2';

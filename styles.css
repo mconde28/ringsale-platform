@@ -260,3 +260,41 @@ table.rep td.num,table.rep th.num{text-align:right;}
 .holds{display:flex; flex-wrap:wrap; gap:8px;}
 .hold{padding:9px 15px; border-radius:999px; border:1.5px solid var(--line); background:var(--paper); font-weight:600; min-height:42px; color:var(--ink);}
 .hold.held{background:#fef2f2; border-color:var(--danger); color:var(--danger); font-weight:800;}
+
+/* ---------- owner admin ---------- */
+.admin-vendor-list{display:flex; flex-direction:column; gap:10px;}
+.admin-vrow{
+  display:flex; align-items:center; gap:12px; width:100%; text-align:left;
+  background:var(--paper); border:1px solid var(--line); border-radius:var(--radius); padding:14px;
+}
+.admin-vrow:active{border-color:var(--brand);}
+.admin-vrow .vi{flex:1; min-width:0; display:flex; flex-direction:column; gap:3px;}
+.admin-vrow .vn{font-weight:800; font-size:17px; display:flex; align-items:center; gap:8px; flex-wrap:wrap;}
+.admin-vrow .vm{font-size:13px; color:var(--muted);}
+.admin-vrow .vt{font-size:14px; font-weight:700;}
+.badge{display:inline-block; padding:3px 10px; border-radius:999px; font-size:12px; font-weight:800; white-space:nowrap;}
+.badge.active{background:#dcfce7; color:var(--ok);}
+.badge.suspended{background:#fee2e2; color:var(--danger);}
+.admin-chev{color:var(--muted); font-size:26px; font-weight:800; line-height:1;}
+.admin-dhead h2{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin:12px 0 2px;}
+.admin-actions{display:flex; gap:8px; flex-wrap:wrap; margin:12px 0;}
+.btn.danger{background:var(--danger); border-color:#991b1b; color:#fff;}
+table.admin-table{width:100%; border-collapse:collapse; font-size:14px;}
+table.admin-table th,table.admin-table td{text-align:left; padding:8px 6px; border-bottom:1px solid var(--line); vertical-align:top;}
+table.admin-table th{font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px;}
+table.admin-table td.num,table.admin-table th.num{text-align:right;}
+
+/* ---------- show/hide password toggle ---------- */
+.pw-wrap{position:relative;}
+.pw-wrap input{padding-right:44px;}
+.pw-toggle{
+  position:absolute; right:6px; top:50%; transform:translateY(-50%);
+  width:34px; height:34px; border:0; background:transparent; border-radius:8px;
+  color:var(--muted); cursor:pointer; display:flex; align-items:center; justify-content:center;
+  touch-action:manipulation;
+}
+.pw-toggle:hover{background:rgba(0,0,0,.05);}
+.pw-toggle svg{width:20px; height:20px;}
+.pw-toggle .icon-off{display:none;}
+.pw-toggle.on .icon-off{display:block;}
+.pw-toggle.on .icon-on{display:none;}
