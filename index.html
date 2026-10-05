@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>RingSale POS</title>
+<meta name="description" content="RingSale point of sale for market and food-truck vendors.">
+<meta name="theme-color" content="#d61f2c">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="RingSale">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ============ AUTH ============ -->
+<section id="screen-auth" class="login-wrap">
+  <div class="login-card">
+    <img src="icons/icon-192.png" class="login-logo" alt="RingSale logo">
+    <h1>RingSale</h1>
+    <p class="tagline">Point of sale for market &amp; food-truck vendors</p>
+
+    <div id="config-banner" class="config-banner" hidden>
+      <strong>Supabase not configured yet.</strong><br>
+      Paste your Project URL and anon key into <code>js/config.js</code> to enable sign-in.
+    </div>
+
+    <div class="auth-tabs" role="tablist">
+      <button type="button" class="auth-tab active" id="auth-tab-login" role="tab">Log in</button>
+      <button type="button" class="auth-tab" id="auth-tab-signup" role="tab">Create account</button>
+    </div>
+
+    <form id="form-login" autocomplete="on">
+      <div class="cred-box">
+        <div class="cred-row">
+          <label for="login-email">Email</label>
+          <input type="email" id="login-email" autocomplete="email" required>
+        </div>
+        <div class="cred-row">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" autocomplete="current-password" required>
+        </div>
+      </div>
+      <button class="btn primary big" type="submit" id="btn-login">Log in</button>
+    </form>
+
+    <form id="form-signup" autocomplete="on" hidden>
+      <div class="cred-box">
+        <div class="cred-row">
+          <label for="signup-business">Business name</label>
+          <input type="text" id="signup-business" autocomplete="organization" required placeholder="e.g. Maria's Taco Truck">
+        </div>
+        <div class="cred-row">
+          <label for="signup-phone">Phone <span class="opt-label">(optional)</span></label>
+          <input type="tel" id="signup-phone" autocomplete="tel" placeholder="(555) 123-4567">
+        </div>
+        <div class="cred-row">
+          <label for="signup-email">Email</label>
+          <input type="email" id="signup-email" autocomplete="email" required>
+        </div>
+        <div class="cred-row">
+          <label for="signup-password">Password</label>
+          <input type="password" id="signup-password" autocomplete="new-password" required minlength="6">
+        </div>
+      </div>
+      <button class="btn primary big" type="submit" id="btn-signup">Create account</button>
+      <p class="hint">Your account starts with a sample menu — delete or replace the samples with your own items anytime.</p>
+    </form>
+
+    <p id="auth-msg" class="auth-msg" hidden></p>
+  </div>
+</section>
+
+<!-- ============ APP ============ -->
+<section id="screen-app" hidden>
+  <header class="app-header">
+    <div class="hdr-row">
+      <img src="icons/icon-192.png" class="hdr-logo" alt="">
+      <div class="hdr-title">RingSale</div>
+      <div class="hdr-vendor-row">
+        <span class="vendor-chip" id="hdr-business"></span>
+        <button class="hdr-switch" id="btn-logout">Log out</button>
+      </div>
+      <nav class="tabs">
+        <button class="tab active" data-tab="sell">Sell</button>
+        <button class="tab" data-tab="menu">Menu</button>
+        <button class="tab" data-tab="reports">Reports</button>
+      </nav>
+    </div>
+    <div class="hdr-meta"><span class="hdr-day" id="hdr-day"></span><span class="app-version" id="app-version"></span></div>
+  </header>
+
+  <main>
+    <!-- SELL -->
+    <div id="tab-sell" class="tabpane">
+      <div class="sell-layout">
+        <div class="menu-pane">
+          <div id="cat-chips" class="chips"></div>
+          <div id="menu-grid" class="menu-grid"></div>
+        </div>
+        <aside class="ticket-pane" id="ticket-pane">
+          <h2>Current Ticket</h2>
+          <div id="ticket-lines" class="ticket-lines"></div>
+          <div class="discount-row" id="discount-row"></div>
+          <div class="note-row" id="note-row"></div>
+          <div class="totals" id="ticket-totals"></div>
+          <div class="tender-row" id="tender-row">
+            <button class="btn tender" data-tender="cash">Cash</button>
+            <button class="btn tender" data-tender="zelle">Zelle</button>
+            <button class="btn tender" data-tender="venmo">Venmo</button>
+            <button class="btn tender" data-tender="card">Other card</button>
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <!-- MENU ADMIN -->
+    <div id="tab-menu" class="tabpane" hidden>
+      <div class="admin-head">
+        <h2>Menu</h2>
+        <button class="btn primary" id="btn-add-item">+ Add Item</button>
+      </div>
+      <div id="menu-admin-list" class="admin-list"></div>
+    </div>
+
+    <!-- REPORTS -->
+    <div id="tab-reports" class="tabpane" hidden>
+      <div id="reports-body"></div>
+    </div>
+  </main>
+</section>
+
+<!-- ============ MODAL ============ -->
+<div id="modal" class="modal-backdrop" hidden>
+  <div class="modal" id="modal-box" role="dialog" aria-modal="true"></div>
+</div>
+
+<script src="js/config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/register.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
